@@ -1,5 +1,5 @@
-local keymap = vim.keymap
 local diagnostic = vim.diagnostic
+local mapKeys = require('utils.mapKeys')
 
 local keymaps = {
   n = {
@@ -22,15 +22,4 @@ local keymaps = {
     ["<Esc><Esc>"] = { "<C-\\><C-n>", "Exit terminal mode" },
   },
 }
-
-for mode, maps in pairs(keymaps) do
-  for keys, mapping in pairs(maps) do
-    local command, desc = mapping[1], mapping[2]
-    if desc then
-      keymap.set(mode, keys, command, { desc = desc })
-    else
-      keymap.set(mode, keys, command)
-    end
-  end
-end
-
+mapKeys.vim(keymaps)
