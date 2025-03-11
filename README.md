@@ -1,3 +1,5 @@
+Personal Neovim config using nixcats & lze.
+
 ```
 
        ▉▉▉▉▉                ▉▉▉▉        
@@ -22,3 +24,5 @@
          ▉                       ▉      
          
 ```
+
+
