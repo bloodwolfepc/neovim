@@ -134,6 +134,7 @@ require('lze').load {
   },
   { import = "config.ft.markdown" },
   { import = "config.ft.latex" },
+  { import = "config.ft.lilypond" },
 }
 
 --unlazy
@@ -160,3 +161,17 @@ require('illuminate').configure({
   delay = 0,
   under_cursor = false
 })
+
+-- require('nvls').setup({
+--   player = {
+--     options = {
+--       -- fluidsynth_flags = {
+--       --   "~/sfz/piano/model-b/The Experience NY S&S Model B AB Omni V1.0.sfz"
+--       -- }
+--     }
+--   },
+--   mappings = {
+--     compile = "<leader>sc",
+--     player = "<leader>sp",
+--   },
+-- })

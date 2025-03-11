@@ -40,17 +40,17 @@ require("lze").load {
       kb()
     end
   },
-  {
-    "gp.nvim",
-    for_cat = "ai",
-    event = "DeferredUIEnter",
-    after = function()
-      require("gp").setup({
-        openai = {
-          endpoint = "https://api.openai.com/v1/chat/completions",
-			    secret = os.getenv("OPENAI_API_KEY"),
-        }
-      })
-    end,
-  }
+  -- {
+  --   "gp.nvim",
+  --   for_cat = "ai",
+  --   event = "DeferredUIEnter",
+  --   after = function()
+  --     require('gp').setup({
+  --       openai = {
+  --         endpoint = "https://api.openai.com/v1/chat/completions",
+		-- 	    secret = os.getenv("OPENAI_API_KEY"),
+  --       }
+  --     })
+  --   end,
+  -- }
 }
