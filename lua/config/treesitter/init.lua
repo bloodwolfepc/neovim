@@ -3,14 +3,14 @@ local kb = function()
   local kb1 = {
     n = {
       ["<leader>"] = {
-        s = {
+        l = {
           s = { incremental_selection.init_selection, "init_selection" },
         }
       }
     },
     v = {
       ["<leader>"] = {
-        s = {
+        l = {
           i = { incremental_selection.node_incremental, "node_incremental" },
           d = { incremental_selection.node_decremental, "node_decremental" },
           c = { incremental_selection.scope_incremental, "scope_incremental" },
