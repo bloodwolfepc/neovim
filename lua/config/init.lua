@@ -36,6 +36,11 @@ require('lze').load {
     for_cat = 'general',
     event = "DeferredUIEnter",
     after = function()
+      local hl1 = {
+        "ibl1",
+        "ibl2"
+      }
+
       local highlight = {
         "RainbowRed",
         "RainbowYellow",
@@ -54,8 +59,13 @@ require('lze').load {
         vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#7d00ec" })
         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#6700c3" })
         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#5757ea" })
+        vim.api.nvim_set_hl(0, "ibl1", { fg = "#ffffff" })
+        vim.api.nvim_set_hl(0, "ibl2", { fg = "#ffffff" })
       end)
-      require("ibl").setup { indent = { highlight = highlight } }
+      require("ibl").setup {
+        indent = { highlight = highlight },
+        scope = { highlight = hl1 }
+      }
     end,
   },
   {

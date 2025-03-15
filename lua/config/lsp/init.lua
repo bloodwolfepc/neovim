@@ -1,12 +1,10 @@
-vim.cmd.packadd("nvim-lspconfig")
-vim.cmd.packadd("lazydev.nvim")
-
 local catUtils = require('nixCatsUtils')
+vim.lsp.set_log_level("debug")
 
 require('lze').load {
   {
     "nvim-lspconfig",
-    for_cat = "general",
+    for_cat = "lsp",
     on_require = { "lspconfig" },
     lsp = function(plugin)
       require('lspconfig')[plugin.name].setup(vim.tbl_extend("force",{
@@ -17,7 +15,7 @@ require('lze').load {
   },
   {
     "lazydev.nvim",
-    for_cat = "general",
+    for_cat = "lsp",
     cmd = { "LazyDev" },
     ft = "lua",
     after = function(_)
@@ -30,9 +28,9 @@ require('lze').load {
   },
   {
     "lua_ls",
-    enabled = nixCats("lua"),
+    enabled = nixCats("lua") or false,
     lsp = {
-      filetypes = { 'lua' },
+      filetypes = { "lua" },
       settings = {
         Lua = {
           runtime = { version = 'LuaJIT' },
@@ -51,7 +49,7 @@ require('lze').load {
   },
   {
     "nixd",
-    enabled = catUtils.isNixCats,
+    enabled = nixCats("nix") or false,
     lsp = {
       filetypes = { "nix" },
       settings = {
