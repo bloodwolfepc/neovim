@@ -20,11 +20,16 @@
         #ft
           nix = true;
           lua = true;
+          c = true;
+          bash = true;
+          rust = true;
           markdown = true;
           latex = true;
-          yaml = true;
-          rust = true;
           lilypond = true;
+          yaml = true;
+          json = true;
+          html = true;
+          css = true;
       };
       extra = {
         nixdExtras = {

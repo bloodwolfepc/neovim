@@ -76,5 +76,40 @@ require('lze').load {
         }
       }
     }
-  }
+  },
+  {
+    "clangd",
+    enabled = nixCats("c") or false,
+    lsp = {
+      filetypes = { "c", "cpp" },
+    },
+  },
+  {
+    "bashls",
+    enabled = nixCats("bash") or false,
+    lsp = {
+      filetypes = { "sh", "bash" },
+    },
+  },
+  {
+    "yamlls",
+    enabled = nixCats("yaml") or false,
+    lsp = {
+      filetypes = { "yaml", "yml" },
+    },
+  },
+  {
+    "jsonls",
+    enabled = nixCats("json") or false,
+    lsp = {
+      filetypes = { "json" },
+    },
+  },
+  {
+    "texlab",
+    enabled = nixCats("latex") or false,
+    lsp = {
+      filetypes = { "tex", "bib" },
+    },
+  },
 }

@@ -14,17 +14,20 @@
       ];
       lsp = {
         default = with pkgs; [
-          bash-language-server
           eslint
-          vscode-langservers-extracted #HTML,CSS,JSON,ESlint
         ];
         nix = with pkgs; [ nixd ];
         lua = with pkgs; [ lua-language-server stylua ];
         rust = with pkgs; [ rust-analyzer ];
         c = with pkgs; [ clang-tools ];
-        pythoon = with pkgs; [ pyright ];
-        css = with pkgs; [ tailwindcss-language-server ];
+        bash = with pkgs; [ bash-language-server ];
+        python = with pkgs; [ pyright ];
         go = with pkgs; [ gopls ];
+        latex = with pkgs; [ texlab ];
+        yaml = with pkgs; [ yaml-language-server ];
+        json = with pkgs; [ vscode-langservers-extracted ];
+        html = with pkgs; [ vscode-langservers-extracted ];
+        css = with pkgs; [ vscode-langservers-extracted tailwindcss-language-server ];
       };
       telescope = {
         default = with pkgs; [ 
@@ -37,7 +40,8 @@
         marksman
       ];
       latex = with pkgs; [ 
-        texlab
+        #texlab
+        texliveFull
         texlivePackages.latexmk
         zathura
       ];
@@ -45,11 +49,12 @@
         lilypond
         mpv
         ffmpeg
+        timidity
         fluidsynth
         soundfont-fluid
-        fluidsynth
+        soundfont-ydp-grand
+        zathura
       ];
-      yaml = with pkgs; [ yaml-language-server ];
     };
     startupPlugins = {
       general = with pkgs.vimPlugins; [
@@ -173,6 +178,8 @@
       ai = with pkgs.vimPlugins;
         [
           ChatGPT-nvim
+          avante-nvim
+          codecompanion-nvim
           #copilot-lua
         ] ++ 
         [

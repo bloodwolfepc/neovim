@@ -2,7 +2,7 @@ local kb = function()
   local mapKeys = require("utils.mapKeys")
   local kb2 = {
     ["<leader>"] = {
-      c = {
+      C = {
         c = { "<cmd>ChatGPT<CR>", "ChatGPT" },
         e = { "<cmd>ChatGPTEditWithInstruction<CR>", "Edit with instruction" },
         g = { "<cmd>ChatGPTRun grammar_correction<CR>", "Grammar Correction" },
@@ -34,8 +34,23 @@ require("lze").load {
     cmd = "ChatGPT",
     keys = (kb)(),
     after = function()
+      local border = { style = { " ", " ", " ", " ", " ", " ", " ", " " }, highlight = "PickerBorder" }
+      local win_options = { winhighlight = "Normal:NormalFloat,FloatBorder:None", }
       require("chatgpt").setup({
-        api_key_cmd = "gpg -q --decrypt ~/src/config/secrets/key.txt"
+        api_key_cmd = "gpg -q --decrypt ~/src/config/secrets/key.txt",
+        chat = {
+          welcome_message = [[ nil ]],
+          sessions_window = { border = border, win_options = win_options },
+        },
+        popup_layout = {
+          center = {
+            width = "100%",
+            height = "100%",
+          },
+        },
+        popup_window = { border = border, win_options = win_options },
+        settings_window = { border = border, win_options = win_options },
+        popup_input = { border = border, win_options = win_options },
       })
       kb()
     end
@@ -48,9 +63,23 @@ require("lze").load {
   --     require('gp').setup({
   --       openai = {
   --         endpoint = "https://api.openai.com/v1/chat/completions",
-		-- 	    secret = os.getenv("OPENAI_API_KEY"),
+  -- 	      secret = os.getenv("OPENAI_API_KEY"),
   --       }
   --     })
   --   end,
-  -- }
+  -- },
+  {
+    "avante.nvim",
+    for_cat = "ai",
+    event = "DeferredUIEnter",
+    after = function()
+      require("avante").setup({
+        provider = "openai",
+        openai = {
+          --api_key_name = "cmd:gpg -q --decrypt ~/src/config/secrets/key.txt"
+        },
+      })
+    end,
+  }
+
 }

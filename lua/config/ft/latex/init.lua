@@ -3,10 +3,10 @@ return {
     "vimtex",
     for_cat = "latex",
     event = "DeferredUIEnter",
-    ft = "latex",
+    lazy = false,
     after = function()
-      vim.g.vimtext_view_method = "zathura"
-      vim.g.vimtext_compiler_method = "latexmk"
+      vim.g.vimtex_view_method = "zathura"
+      vim.g.vimtex_compiler_method = "latexmk"
     end,
   },
 }

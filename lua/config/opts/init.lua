@@ -5,7 +5,7 @@ local fn = vim.fn
 
 local globals = {
   mapleader = ' ',
-  maplocalleader = ' ',
+  --maplocalleader =   \
   netrw_banner = 0,
   netrw_mouse = 2,
   editorconfig = true,
@@ -13,6 +13,7 @@ local globals = {
 }
 
 local options = {
+  clipboard = "unnamedplus",
   termguicolors = true,
   backup = false,
   undofile = true,
