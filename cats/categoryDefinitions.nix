@@ -4,6 +4,13 @@
     inherit (outputs) customPackages;
   in
   { pkgs, settings, categories, extra, name, mkNvimPlugin, ... }@packageDef: {
+    environmentVariables = {
+      lilypond = {
+        default = {
+          LILYDICTPATH = "${pkgs.vimPlugins.nvim-lilypond-suite}/lilywords";
+        };
+      };
+    };
     lspsAndRuntimeDeps = {
       general = with pkgs; [
         universal-ctags
@@ -91,6 +98,8 @@
         nvim-lint
         conform-nvim
         bufferline-nvim
+
+        null-ls-nvim
       ];
       lsp = {
         default = with pkgs.vimPlugins; [
@@ -147,6 +156,7 @@
             cmp-calc
             cmp-emoji
             cmp-ctags
+            #cmp-tabnine
         ];
         latex = with pkgs.vimPlugins; [
           luasnip-latex-snippets-nvim

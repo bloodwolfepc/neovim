@@ -77,6 +77,17 @@ require('lze').load {
       }
     }
   },
+  -- {
+  --   "null-ls.nvim",
+  --   enabled = nixCats("lsp") or false,
+  --   lazy = false,
+  --   after = function()
+  --     local null_ls = require("null-ls")
+  --     null_ls.setup({
+  --       sources = { }
+  --     })
+  --   end,
+  -- },
   {
     "clangd",
     enabled = nixCats("c") or false,

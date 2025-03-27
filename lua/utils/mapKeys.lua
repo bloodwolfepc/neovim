@@ -17,7 +17,7 @@ local function parseKeymap(kb, seq, result, mode)
   for k, v in pairs(kb) do
     if type(v) == "table" then
       if isArray(v) ~= true then
-        if string.match( k, "[nvit]") and seq == "" then
+        if string.match( k, "[nvit]") and seq == "" then --string.match( k, "[nvit]") and 
           mode = k
           parseKeymap(v, "", result, mode)
         else
@@ -78,19 +78,3 @@ function M.lzeSeqAndDesc(kb)
 end
 
 return M
-
---[[
-
-t = {
-  d = cmd("continue"),
-
-can be:
-
-local dap = require 'dap'
-t = {
-  group = 
-    headLiteral = dap
-    headString = "dap."
-    d = "continue"
-]]
-

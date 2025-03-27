@@ -21,7 +21,7 @@ require('lze').load {
     local kb = {
       n = {
         ["<leader>"] = {
-          t = {
+          h = {
             d = cmd("continue"),
             i = cmd("step_into"),
             o = cmd("step_over"),

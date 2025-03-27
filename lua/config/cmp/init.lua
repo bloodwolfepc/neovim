@@ -100,6 +100,7 @@ require('lze').load {
       local luasnip = require("luasnip")
       local lspkind = require("lspkind")
       local default_sources = {
+        { name = "dictionary", keyword_length = 2 },
         { name = "nvim_lsp", keyword_length = 3 },
         { name = "nvim_lsp_signature_help", keyword_length = 3 },
         { name = "calc" },
@@ -107,7 +108,6 @@ require('lze').load {
         { name = "luasnip" },
         { name = "buffer" },
         { name = "zsh" },
-        { name = "dictionary", keyword_length = 2 },
         { name = "git" },
         { name = "emoji" },
         { name = "cmp-ctags" },
@@ -120,6 +120,7 @@ require('lze').load {
             maxwidth = 50,
             ellipsis_char = '...',
             menu = {
+              dictionary = '[DICT]',
               buffer = '[BUF]',
               nvim_lsp = '[LSP]',
               nvim_lsp_signature_help = '[LSP]',
@@ -231,18 +232,26 @@ require('lze').load {
       })
       cmp.setup.filetype('markdown', {
         sources = vim.list_extend(
-          default_sources,
           {
             { name = "vimwiki-tags" },
-          }
+          },
+          default_sources
         )
       })
-      cmp.setup.filetype('latex', {
+      cmp.setup.filetype("latex", {
         sources = vim.list_extend(
-          default_sources,
           {
             { name = "latex_symbols" },
-          }
+          },
+          default_sources
+        )
+      })
+      cmp.setup.filetype("lilypad", {
+        sources = vim.list_extend(
+          {
+            { name = "dictionary", keyword_length = 2 },
+          },
+          default_sources
         )
       })
       cmp.setup.filetype(
@@ -260,6 +269,33 @@ require('lze').load {
     "cmp-dictionary",
     for_cat = 'cmp',
     load = load_w_after_plugin,
+    after = function()
+      local lilydictpath = os.getenv("LILYDICTPATH")
+      require("cmp_dictionary").setup({
+        paths = {
+          lilydictpath .. "/grobs",
+          lilydictpath .. "/keywords",
+          lilydictpath .. "/musicFunctions",
+          lilydictpath .. "/articulations",
+          lilydictpath .. "/grobProperties",
+          lilydictpath .. "/paperVariables",
+          lilydictpath .. "/headerVariables",
+          lilydictpath .. "/contextProperties",
+          lilydictpath .. "/clefs",
+          lilydictpath .. "/repeatTypes",
+          lilydictpath .. "/languageNames",
+          lilydictpath .. "/accidentalsStyles",
+          lilydictpath .. "/scales",
+          lilydictpath .. "/musicCommands",
+          lilydictpath .. "/markupCommands",
+          lilydictpath .. "/contextsCmd",
+          lilydictpath .. "/dynamics",
+          lilydictpath .. "/contexts",
+          lilydictpath .. "/translators",
+        },
+        exact_length = 2
+       })
+    end,
   },
   {
     "cmp-zsh",

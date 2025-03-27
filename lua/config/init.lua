@@ -64,8 +64,8 @@ require('lze').load {
         vim.api.nvim_set_hl(0, "RainbowGreen", { fg = "#7d00ec" })
         vim.api.nvim_set_hl(0, "RainbowViolet", { fg = "#6700c3" })
         vim.api.nvim_set_hl(0, "RainbowCyan", { fg = "#5757ea" })
-        vim.api.nvim_set_hl(0, "ibl1", { fg = "#ffffff" })
-        vim.api.nvim_set_hl(0, "ibl2", { fg = "#ffffff" })
+        vim.api.nvim_set_hl(0, "ibl1", { fg = "#00ffff" })
+        vim.api.nvim_set_hl(0, "ibl2", { fg = "#00ffff" })
       end)
       require("ibl").setup {
         indent = { highlight = highlight },

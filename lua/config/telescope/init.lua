@@ -1,6 +1,11 @@
---https://github.com/dharmx/telescope-media.nvim
---https://github.com/nvim-telescope/telescope-bibtex.nvim
---https://github.com/ahmedkhalf/project.nvim
+--[[
+TODO:
+https://github.com/dharmx/telescope-media.nvim
+https://github.com/nvim-telescope/telescope-bibtex.nvim
+https://github.com/ahmedkhalf/project.nvim
+function which greps though and finds, places you into only directories (not single files)
+starting from src and from home, useful for oil
+]]
 local kb = function()
   local mapKeys = require('utils.mapKeys')
   local function cmd(cmd1, m)
