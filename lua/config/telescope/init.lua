@@ -175,7 +175,10 @@ require('lze').load {
               height = { padding = 0 },
               preview_width = 0.5
             }
-          }
+          },
+          file_ignore_patterns = {
+            "*.lock",
+          };
         },
         extensions = {
           fzf = {}

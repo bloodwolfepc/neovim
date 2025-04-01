@@ -57,41 +57,41 @@ require('lze').load {
               ['@class.outer'] = '<c-v>',
             },
             keymaps = {
-              ['aa'] = '@parameter.outer',
-              ['ia'] = '@parameter.inner',
-              ['af'] = '@function.outer',
-              ['if'] = '@function.inner',
-              ['ac'] = '@class.outer',
-              ['ic'] = '@class.inner',
+              ['aa'] = { query = "@parameter.outer", desc = "@parameter.outer" },
+              ['ia'] = { query = "@parameter.inner", desc = "@parameter.inner" },
+              ['af'] = { query = "@function.outer", desc = "@function.outer" },
+              ['if'] = { query = "@function.inner", desc = "@function.inner" },
+              ['ac'] = { query = "@class.outer", desc = "@class.outer" },
+              ['ic'] = { query = "@class.inner", desc = "@class.inner" },
             },
           },
           move = {
             enable = true,
             set_jumps = true,
             goto_next_start = {
-              [']m'] = '@function.outer',
-              [']]'] = '@class.outer',
+              [']m'] = { query = "@function.outer", desc = "@function.outer" },
+              [']]'] = { query = "@class.outer", desc = "@class.outer" },
             },
             goto_next_end = {
-              [']M'] = '@function.outer',
-              [']['] = '@class.outer',
+              [']M'] = { query = "@function.outer", desc = "@function.outer" },
+              [']['] = { query = "@class.outer", desc = "@class.outer" },
             },
             goto_previous_start = {
-              ['[m'] = '@function.outer',
-              ['[['] = '@class.outer',
+              ['[m'] = { query = "@function.outer", desc = "@function.outer" },
+              ['[['] = { query = "@class.outer", desc = "@class.outer" },
             },
             goto_previous_end = {
-              ['[M'] = '@function.outer',
-              ['[]'] = '@class.outer',
+              ['[M'] = { query = "@function.outer", desc = "@function.outer" },
+              ['[]'] = { query = "@class.outer", desc = "@class.outer" },
             },
           },
           swap = {
             enable = true,
             swap_next = {
-              ['<leader>ta'] = '@parameter.inner',
+              ['<leader>ta'] = { query = "@parameter.inner", desc = "@parameter.inner" },
             },
             swap_previous = {
-              ['<leader>tt'] = '@parameter.inner',
+              ['<leader>tt'] = { query = "@parameter.inner", desc = "@parameter.inner" },
             },
           },
           lsp_interop = {
@@ -99,8 +99,8 @@ require('lze').load {
             border = 'none',
             floating_preview_opts = {},
             peek_definition_code = {
-              ["<leader>df"] = "@function.outer",
-              ["<leader>dF"] = "@class.outer",
+              ["<leader>df"] = { query = "@function.outer", desc = "@function.outer" },
+              ["<leader>dF"] = { query = "@class.outer", desc = "@class.outer" },
             }
           }
         }

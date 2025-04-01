@@ -1,3 +1,7 @@
+--[[ TODO:
+  highlight current line after jump, unhighlight when moved out of jumped line
+]]
+
 require("lze").register_handlers(require('nixCatsUtils.lzUtils').for_cat)
 require("lze").register_handlers(require('lzextras').lsp)
 
