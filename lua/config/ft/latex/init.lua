@@ -44,4 +44,12 @@ return {
       kb()
     end,
   },
+
+  {
+    "texlab",
+    enabled = nixCats("latex") or false,
+    lsp = {
+      filetypes = { "tex", "bib" },
+    },
+  },
 }

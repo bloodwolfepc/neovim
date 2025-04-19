@@ -1,43 +1,55 @@
 { nixpkgs }: let
-#let
-  packageDefinitions = {
-    nvim = {pkgs , ... }: {
-      settings = {
-        wrapRc = true;
-        configDirName = "nixCats-nvim";
-        aliases = [ "vim" "vi" ];
-      };
-      categories = {
-        #default
-          general = true;
-          telescope = true;
-          cmp = true;
-          treesitter = true;
-          debug = true;
-          git = true;
-          ai = true;
-          lsp = true;
-        #ft
-          nix = true;
-          lua = true;
-          c = true;
-          bash = true;
-          rust = true;
-          markdown = true;
-          latex = true;
-          lilypond = true;
-          yaml = true;
-          json = true;
-          html = true;
-          css = true;
-      };
-      extra = {
-        nixdExtras = {
-          nixpkgs = nixpkgs;
-        };
+  packageDefinitions = let
+    settings = {
+      wrapRc = true;
+      configDirName = "nixCats-nvim";
+      aliases = [ "vim" "vi" ];
+    };
+    extra = {
+      nixdExtras = {
+        nixpkgs = nixpkgs;
       };
     };
+    essential = {
+      general = true;
+      telescope = true;
+      cmp = true;
+      treesitter = true;
+      debug = true;
+      format = true;
+      git = true;
+      ai = true;
+      lsp = true;
+      bash = true;
+      nix = true;
+      lua = true;
+      yaml = true;
+      json = true;
+    }; 
+  in {
+    nvim = {pkgs , ... }: {
+      inherit settings extra;
+      categories = {
+        c = true;
+        python = true;
+        rust = true;
+        markdown = true;
+        latex = true;
+        lilypond = true;
+        html = true;
+        css = true;
+      } // essential;
+    };
+    #minimal = {pkgs , ... }: {
+    #  inherit settings extra;
+    #  categories = { } // essential;
+    #};
   };
 in
   packageDefinitions
+
+#extraExtensiveLangs
+#extensiveLangs
+#plaintextLangs
+#essentialLangs,bash,lua
 

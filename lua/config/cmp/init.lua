@@ -14,7 +14,7 @@ vim.api.nvim_set_hl( 0, "CmpNormal", { bg = "#000000" })
 require('lze').load {
   {
     "cmp-buffer",
-    for_cat = 'cmp',
+    for_cat = "cmp",
     on_plugin = { "nvim-cmp" },
     load = load_w_after_plugin,
   },
@@ -74,9 +74,9 @@ require('lze').load {
   },
   {
     "luasnip",
-    for_cat = 'cmp',
+    for_cat = "cmp",
     dep_of = { "nvim-cmp" },
-    after = function (plugin)
+    after = function()
       local luasnip = require 'luasnip'
       require('luasnip.loaders.from_vscode').lazy_load()
       luasnip.config.setup {}

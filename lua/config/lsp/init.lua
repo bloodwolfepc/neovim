@@ -1,21 +1,21 @@
 local catUtils = require('nixCatsUtils')
 vim.lsp.set_log_level("debug")
 
-require('lze').load {
+require("lze").load {
   {
     "nvim-lspconfig",
     for_cat = "lsp",
     on_require = { "lspconfig" },
     lsp = function(plugin)
-      require('lspconfig')[plugin.name].setup(vim.tbl_extend("force",{
-        capabilities = require('config.lsp.caps-on_attach').get_capabilities(plugin.name),
-        on_attach = require('config.lsp.caps-on_attach').on_attach,
+      require("lspconfig")[plugin.name].setup(vim.tbl_extend("force",{
+        capabilities = require("config.lsp.caps-on_attach").get_capabilities(plugin.name),
+        on_attach = require("config.lsp.caps-on_attach").on_attach,
       }, plugin.lsp or {}))
     end,
   },
   {
     "lazydev.nvim",
-    for_cat = "lsp",
+    for_cat = "lua",
     cmd = { "LazyDev" },
     ft = "lua",
     after = function(_)
@@ -77,27 +77,21 @@ require('lze').load {
       }
     }
   },
-  -- {
-  --   "null-ls.nvim",
-  --   enabled = nixCats("lsp") or false,
-  --   lazy = false,
-  --   after = function()
-  --     local null_ls = require("null-ls")
-  --     null_ls.setup({
-  --       sources = { }
-  --     })
-  --   end,
-  -- },
   {
-    "clangd",
-    enabled = nixCats("c") or false,
-    lsp = {
-      filetypes = { "c", "cpp" },
-    },
+    "null-ls.nvim",
+    enabled = nixCats("lsp") or false,
+    lazy = false,
+    after = function()
+      local null_ls = require("null-ls")
+      null_ls.setup({
+        sources = { }
+      })
+    end,
   },
   {
     "bashls",
     enabled = nixCats("bash") or false,
+    for_cat = "bash",
     lsp = {
       filetypes = { "sh", "bash" },
     },
@@ -117,10 +111,17 @@ require('lze').load {
     },
   },
   {
-    "texlab",
-    enabled = nixCats("latex") or false,
+    "clangd",
+    enabled = nixCats("c") or false,
     lsp = {
-      filetypes = { "tex", "bib" },
+      filetypes = { "c", "cpp" },
+    },
+  },
+  {
+    "pyright",
+    enabled = nixCats("python") or false,
+    lsp = {
+      filetypes = { "python", "py" },
     },
   },
 }

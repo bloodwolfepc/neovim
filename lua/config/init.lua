@@ -1,7 +1,9 @@
 --[[ TODO:
-  highlight current line after jump, unhighlight when moved out of jumped line
+  highlight current line after jump, unhighlight when moved out of jumped line or editing
+  todoman or ist integration
 ]]
 
+--get lze specs
 require("lze").register_handlers(require('nixCatsUtils.lzUtils').for_cat)
 require("lze").register_handlers(require('lzextras').lsp)
 
@@ -18,31 +20,32 @@ for _, cat in ipairs({
   "oil",
   "yanky",
   "gitsigns",
+  "ft"
 }) do
-  if nixCats('general') then
-    require('config.' .. cat)
+  if nixCats("general") then
+    require("config." .. cat)
   end
 end
 
 for _, cat in ipairs({
-  'debug',
-  'telescope',
-  'lint',
-  'format',
-  'treesitter',
-  'cmp',
-  'lsp',
-  'ai',
+  "debug",
+  "telescope",
+  "lint",
+  "format",
+  "treesitter",
+  "cmp",
+  "lsp",
+  "ai",
 }) do
   if nixCats(cat) then
-    require('config.' .. cat)
+    require("config." .. cat)
   end
 end
 
-require('lze').load {
+require("lze").load {
   {
     "indent-blankline.nvim",
-    for_cat = 'general',
+    for_cat = "general",
     event = "DeferredUIEnter",
     after = function()
       local hl1 = {
@@ -151,9 +154,25 @@ require('lze').load {
       require("nvim-surround").setup()
     end,
   },
-  { import = "config.ft.markdown" },
-  { import = "config.ft.latex" },
-  { import = "config.ft.lilypond" },
+  {
+    "coop.nvim",
+    for_cat = "general",
+    event = "DeferredUIEnter",
+    dep_of = { "feed.nvim" },
+  },
+  {
+    "feed.nvim",
+    for_cat = "general",
+    event = "DeferredUIEnter",
+    after = function()
+      require("feed").setup({
+        feeds = {
+          "https://feeds.npr.org/1001/rss.xml",
+          "https://neovim.io/news.xml",
+        },
+      })
+    end,
+  },
 }
 
 --unlazy
@@ -176,7 +195,7 @@ require("colorizer").setup({
 })
 
 vim.cmd.packadd("vim-illuminate")
-require('illuminate').configure({
+require("illuminate").configure({
   delay = 0,
   under_cursor = false
 })

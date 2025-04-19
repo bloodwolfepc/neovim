@@ -2,8 +2,10 @@
   categoryDefinitions = 
   let
     inherit (outputs) customPackages;
+    system = "x86_64-linux";
   in
   { pkgs, settings, categories, extra, name, mkNvimPlugin, ... }@packageDef: {
+
     environmentVariables = {
       lilypond = {
         default = {
@@ -11,6 +13,7 @@
         };
       };
     };
+
     lspsAndRuntimeDeps = {
       general = with pkgs; [
         universal-ctags
@@ -18,24 +21,10 @@
         fd
         stdenv.cc.cc
         nix-doc
+
+        pandoc #for feed
+        eslint
       ];
-      lsp = {
-        default = with pkgs; [
-          eslint
-        ];
-        nix = with pkgs; [ nixd ];
-        lua = with pkgs; [ lua-language-server stylua ];
-        rust = with pkgs; [ rust-analyzer ];
-        c = with pkgs; [ clang-tools ];
-        bash = with pkgs; [ bash-language-server ];
-        python = with pkgs; [ pyright ];
-        go = with pkgs; [ gopls ];
-        latex = with pkgs; [ texlab ];
-        yaml = with pkgs; [ yaml-language-server ];
-        json = with pkgs; [ vscode-langservers-extracted ];
-        html = with pkgs; [ vscode-langservers-extracted ];
-        css = with pkgs; [ vscode-langservers-extracted tailwindcss-language-server ];
-      };
       telescope = {
         default = with pkgs; [ 
           zoxide
@@ -43,11 +32,20 @@
         ];
         nix = with pkgs; [ manix ];
       };
-      markdown = with pkgs; [ 
-        marksman
-      ];
+      nix = with pkgs; [ nixd ];
+      lua = with pkgs; [ lua-language-server stylua ];
+      rust = with pkgs; [ cargo rustc rust-analyzer rustfmt ];
+      c = with pkgs; [ clang-tools ];
+      bash = with pkgs; [ bash-language-server ];
+      python = with pkgs; [ pyright ];
+      go = with pkgs; [ gopls ];
+      yaml = with pkgs; [ yaml-language-server ];
+      json = with pkgs; [ vscode-langservers-extracted ];
+      html = with pkgs; [ vscode-langservers-extracted ];
+      css = with pkgs; [ vscode-langservers-extracted tailwindcss-language-server ];
+      markdown = with pkgs; [ marksman ];
       latex = with pkgs; [ 
-        #texlab
+        texlab
         texliveFull
         texlivePackages.latexmk
         zathura
@@ -63,6 +61,7 @@
         zathura
       ];
     };
+
     startupPlugins = {
       general = with pkgs.vimPlugins; [
         lze
@@ -100,6 +99,10 @@
         bufferline-nvim
 
         null-ls-nvim
+
+      ] ++ [
+        (mkNvimPlugin customPackages.${system}.feed-nvim "feed.nvim")
+        (mkNvimPlugin customPackages.${system}.coop-nvim "coop.nvim")
       ];
       lsp = {
         default = with pkgs.vimPlugins; [
@@ -156,7 +159,6 @@
             cmp-calc
             cmp-emoji
             cmp-ctags
-            #cmp-tabnine
         ];
         latex = with pkgs.vimPlugins; [
           luasnip-latex-snippets-nvim
@@ -193,21 +195,12 @@
           #copilot-lua
         ] ++ 
         [
-          (mkNvimPlugin customPackages.x86_64-linux.gp-nvim "gp.nvim")
+          (mkNvimPlugin customPackages.${system}.gp-nvim "gp.nvim")
         ];
-      markdown = with pkgs.vimPlugins; [
-        vimwiki
-        markdown-preview-nvim
-      ];
-      rust = with pkgs.vimPlugins; [
-        rustaceanvim
-      ];
-      latex = with pkgs.vimPlugins; [
-        vimtex
-      ];
-      lilypond = with pkgs.vimPlugins; [
-        nvim-lilypond-suite
-      ];
+      markdown = with pkgs.vimPlugins; [ vimwiki markdown-preview-nvim ];
+      rust = with pkgs.vimPlugins; [ rustaceanvim ];
+      latex = with pkgs.vimPlugins; [ vimtex ];
+      lilypond = with pkgs.vimPlugins; [ nvim-lilypond-suite ];
     };
   };
 in
