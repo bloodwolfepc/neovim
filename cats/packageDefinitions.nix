@@ -40,10 +40,10 @@
         css = true;
       } // essential;
     };
-    #minimal = {pkgs , ... }: {
-    #  inherit settings extra;
-    #  categories = { } // essential;
-    #};
+    minimal = {pkgs , ... }: {
+      inherit settings extra;
+      categories = { } // essential;
+    };
   };
 in
   packageDefinitions

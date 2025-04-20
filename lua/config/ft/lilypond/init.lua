@@ -3,7 +3,7 @@ return {
     "nvim-lilypond-suite",
     for_cat = "lilypond",
     event = "DeferredUIEnter",
-    lazy = false;
+    lazy = false,
     after = function()
       require("nvls").setup({
         lilypond = {
@@ -77,6 +77,7 @@ return {
           }
         },
       })
+
       vim.api.nvim_create_autocmd('BufEnter', {
         command = "syntax sync fromstart",
         pattern = { "*.ly", "*.ily", '*tex' }
@@ -92,6 +93,18 @@ return {
         command = "cwindow",
         pattern = "*"
       })
+    end,
+  },
+  {
+    "midi-input.nvim",
+    for_cat = "lilypond",
+    event = "DeferredUIEnter",
+    --cmd = { "MidiInputStart" },
+    lazy = false,
+    after = function()
+    require("nvim-midi-input").setup({
+      device = "Roland Digital Piano MIDI 1",
+    })
     end,
   }
 }

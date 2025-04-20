@@ -6,7 +6,7 @@ require("lze").load {
 }
 --[[
 TODO:prompt snippet
-  in this code snippet:
+  from what is provided in this code snippet:
     <here> <- inserted from visual mode
   what does this mean:
     <cursor insert>

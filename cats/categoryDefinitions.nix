@@ -1,4 +1,4 @@
-{ outputs }: let
+{ outputs, inputs }: let
   categoryDefinitions = 
   let
     inherit (outputs) customPackages;
@@ -32,7 +32,7 @@
         ];
         nix = with pkgs; [ manix ];
       };
-      nix = with pkgs; [ nixd ];
+      nix = with pkgs; [ nixd nixfmt-rfc-style ];
       lua = with pkgs; [ lua-language-server stylua ];
       rust = with pkgs; [ cargo rustc rust-analyzer rustfmt ];
       c = with pkgs; [ clang-tools ];
@@ -52,6 +52,7 @@
       ];
       lilypond = with pkgs; [
         lilypond
+        python312Packages.python-ly
         mpv
         ffmpeg
         timidity
@@ -59,6 +60,8 @@
         soundfont-fluid
         soundfont-ydp-grand
         zathura
+      ] ++ [
+        inputs.lilypond-midi-input.defaultPackage.${system}
       ];
     };
 
@@ -70,6 +73,7 @@
         which-key-nvim
         plenary-nvim
         tmux-navigator
+        tmux-nvim
       ];
     };
     optionalPlugins = {
@@ -200,7 +204,9 @@
       markdown = with pkgs.vimPlugins; [ vimwiki markdown-preview-nvim ];
       rust = with pkgs.vimPlugins; [ rustaceanvim ];
       latex = with pkgs.vimPlugins; [ vimtex ];
-      lilypond = with pkgs.vimPlugins; [ nvim-lilypond-suite ];
+      lilypond = with pkgs.vimPlugins; [ nvim-lilypond-suite ] ++ [
+        (mkNvimPlugin customPackages.${system}.midi-input-nvim "midi-input.nvim")
+      ];
     };
   };
 in

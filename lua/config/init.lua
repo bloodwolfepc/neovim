@@ -7,6 +7,7 @@
 require("lze").register_handlers(require('nixCatsUtils.lzUtils').for_cat)
 require("lze").register_handlers(require('lzextras').lsp)
 
+
 vim.cmd.packadd("nvim-web-devicons")
 require'nvim-web-devicons'.setup({})
 

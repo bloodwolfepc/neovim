@@ -177,7 +177,7 @@ require('lze').load {
             }
           },
           file_ignore_patterns = {
-            "*.lock",
+            "%.lock",
           };
         },
         extensions = {

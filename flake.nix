@@ -3,13 +3,14 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
+    lilypond-midi-input.url = "github:niveK77pur/lilypond-midi-input";
   };
   outputs = { self, nixpkgs, nixCats, ... }@inputs: let
     inherit (nixCats) utils;
     inherit (self) outputs;
     luaPath = "${./.}";
     forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
-    cats = import ./cats { inherit nixpkgs outputs; };
+    cats = import ./cats { inherit nixpkgs outputs inputs; };
     inherit (cats) packageDefinitions categoryDefinitions;
     defaultPackageName = "nvim";
     dependencyOverlays = [ (utils.standardPluginOverlay inputs) ];
@@ -27,7 +28,9 @@
     devShells = {
       default = pkgs.mkShell {
         name = defaultPackageName;
-        packages = [ defaultPackage ];
+        packages = [ 
+          defaultPackage 
+        ];
         inputsFrom = [ ];
         shellHook = ''
         '';

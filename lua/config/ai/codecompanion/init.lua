@@ -6,22 +6,29 @@ local kb = function()
       cmd1
     }
   end
+  local cmd1 = function(cmd1)
+    return {
+      "<cmd>CodeCompanion /" .. cmd1 .. "<cr>",
+      cmd1
+    }
+  end
   local kb2 = {
     ["<leader>"] = {
       a = {
         a = cmd("Actions"),
         v = cmd("Chat Toggle"),
-        e = cmd(" /explain"),
-        f = cmd(" /fix"),
-        l = cmd(" /lsp"),
-        t = cmd(" /tests"),
-        m = cmd(" /commit"),
-        M = cmd(" /staged-commit"),
-        d = cmd(" /inline-doc"),
-        D = cmd(" /doc"),
-        r = cmd(" /refactor"),
-        R = cmd(" /review"),
-        n = cmd(" /naming"),
+        e = cmd1("detailed-explain"),
+        E = cmd1("explain"),
+        m = cmd1("commit"),
+        M = cmd1("staged-commit"),
+        d = cmd1("inline-document"),
+        D = cmd1("document"),
+        R = cmd1("review"),
+        r = cmd1("refactor"),
+        n = cmd1("naming"),
+        f = cmd1("fix"),
+        l = cmd1("lsp"),
+        t = cmd1("tests"),
         q = {
           function()
             local input = vim.fn.input("Quick Chat: ")
@@ -47,7 +54,7 @@ return {
     event = "DeferredUIEnter",
     keys = (kb)(),
     after = function()
-      local prompt = require("config.ai.prompt")
+      local prompts = require("config.ai.prompts")
       require("codecompanion").setup({
         adapters = {
           openai = function()
@@ -96,7 +103,19 @@ return {
               },
             },
           },
-          inline = { adapter = "openai" },
+          inline = {
+            adapter = "openai",
+            keymaps = {
+              accept_change = {
+                modes = { n = "ga" },
+                description = "accept suggested change",
+              },
+              reject_change = {
+                modes = { n = "gr" },
+                description = "reject suggested change",
+              },
+            },
+          },
           agent = { adapter = "openai" },
         },
         inline = {
@@ -112,18 +131,42 @@ return {
         },
         opts = {
           log_level = "DEBUG",
-          system_prompt = prompt.SYSTEM_PROMPT,
+          system_prompt = prompts.system_prompt,
         },
 
         prompt_library = {
-          ["Generate a Commit Message"] = {
+          ["commit"] = {
             prompts = {
               {
                 role = "user",
                 content = function()
-                  return "Write commit message with commitizen convention. Write clear, informative commit messages that explain the 'what' and 'why' behind changes, not just the 'how'."
-                    .. "\n\n```\n"
+                  return prompts.generate_commit_message
+                    .. "\n\n```"
                     .. vim.fn.system("git diff")
+                    .. "\n```"
+                end,
+                opts = {
+                  contains_code = true,
+                  short_name = "commit"
+                },
+              },
+            },
+          },
+
+          ["staged-commit"] = {
+            strategy = "chat",
+            opts = {
+              index = 9,
+              short_name = "staged-commit",
+              auto_submit = true,
+            },
+            prompts = {
+              {
+                role = "user",
+                content = function()
+                  return prompts.generate_commit_message
+                    .. "\n\n```"
+                    .. vim.fn.system("git diff --staged")
                     .. "\n```"
                 end,
                 opts = {
@@ -132,9 +175,9 @@ return {
               },
             },
           },
-          ["Explain"] = {
+
+          ["explain"] = {
             strategy = "chat",
-            description = "Explain how code in a buffer works",
             opts = {
               index = 4,
               default_prompt = true,
@@ -147,7 +190,7 @@ return {
             prompts = {
               {
                 role = "system",
-                content = prompt.COPILOT_EXPLAIN,
+                content = prompts.copilot_explain,
                 opts = {
                   visible = false,
                 },
@@ -169,23 +212,38 @@ return {
               },
             },
           },
-          -- Add custom prompts
-          ["Generate a Commit Message for Staged"] = {
+
+          ["detailed-explain"] = {
             strategy = "chat",
-            description = "Generate a commit message for staged change",
             opts = {
-              index = 9,
-              short_name = "staged-commit",
-              auto_submit = true,
+              index = 4,
+              default_prompt = true,
+              modes = { "v" },
+              short_name = "detailed-explain",
+              auto_submit = false,
+              user_prompt = true,
+              stop_context_insertion = true,
             },
             prompts = {
               {
+                role = "system",
+                content = prompts.copilot_explain,
+                opts = {
+                  visible = false,
+                },
+              },
+              {
                 role = "user",
-                content = function()
-                  return "Write commit message for the change with commitizen convention. Write clear, informative commit messages that explain the 'what' and 'why' behind changes, not just the 'how'."
-                    .. "\n\n```\n"
-                    .. vim.fn.system("git diff --staged")
-                    .. "\n```"
+                content = function(context)
+                  local code = require("codecompanion.helpers.actions").get_code(context.start_line, context.end_line)
+
+                  return "From what is provded in the following code snippet:\n\n```"
+                    .. context.filetype
+                    .. "\n"
+                    .. code
+                    .. "\n```\n\n"
+                    .. "Please explain what the follwing means:"
+                    .. "\n\n"
                 end,
                 opts = {
                   contains_code = true,
@@ -193,12 +251,12 @@ return {
               },
             },
           },
-          ["Inline-Document"] = {
+
+          ["inline-document"] = {
             strategy = "inline",
-            description = "Add documentation for code.",
             opts = {
               modes = { "v" },
-              short_name = "inline-doc",
+              short_name = "inline-document",
               auto_submit = true,
               user_prompt = false,
               stop_context_insertion = true,
@@ -221,12 +279,12 @@ return {
               },
             },
           },
-          ["Document"] = {
+
+          ["document"] = {
             strategy = "chat",
-            description = "Write documentation for code.",
             opts = {
               modes = { "v" },
-              short_name = "doc",
+              short_name = "document",
               auto_submit = true,
               user_prompt = false,
               stop_context_insertion = true,
@@ -249,9 +307,9 @@ return {
               },
             },
           },
-          ["Review"] = {
+
+          ["review"] = {
             strategy = "chat",
-            description = "Review the provided code snippet.",
             opts = {
               index = 11,
               modes = { "v" },
@@ -263,7 +321,7 @@ return {
             prompts = {
               {
                 role = "system",
-                content = COPILOT_REVIEW,
+                content = prompts.copilot_review,
                 opts = {
                   visible = false,
                 },
@@ -285,9 +343,9 @@ return {
               },
             },
           },
-          ["Refactor"] = {
+
+          ["refactor"] = {
             strategy = "inline",
-            description = "Refactor the provided code snippet.",
             opts = {
               index = 11,
               modes = { "v" },
@@ -299,7 +357,7 @@ return {
             prompts = {
               {
                 role = "system",
-                content = COPILOT_REFACTOR,
+                content = prompts.copilot_refactor,
                 opts = {
                   visible = false,
                 },
@@ -321,9 +379,8 @@ return {
               },
             },
           },
-          ["Naming"] = {
+          ["naming"] = {
             strategy = "inline",
-            description = "Give betting naming for the provided code snippet.",
             opts = {
               index = 12,
               modes = { "v" },
@@ -355,31 +412,3 @@ return {
     end,
   }
 }
--- display = {
---   action_palette = {
---     provider = "telescope",
---   },
--- },
--- strategies = {
---   chat = {
---     adapter = "openai",
---   },
---   inline = {
---     adapter = "openai",
---   },
--- },
--- adapters = {
---   openai = function()
---     return require("codecompanion.adapters").extend("openai", {
---       env = {
---         api_key = os.getenv("OPENAI_API_KEY")
---         --api_key = "cmd: gpg -q --decrypt ~/src/config/secrets/key.txt",
---       },
---       schema = {
---         model = {
---           default = "gpt-4o",
---         },
---       },
---     })
---   end,
--- },
