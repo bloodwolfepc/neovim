@@ -124,4 +124,13 @@ require("lze").load {
       filetypes = { "python", "py" },
     },
   },
+
+  -- https://github.com/ufo5260987423/scheme-langserver/issues/62
+  -- {
+  --   "scheme_langserver",
+  --   enabled = nixCats("scheme") or false,
+  --   lsp = {
+  --     filetypes = { "scheme", "scm", "ss" },
+  --   },
+  -- },
 }

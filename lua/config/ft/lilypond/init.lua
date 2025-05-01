@@ -98,9 +98,8 @@ return {
   {
     "midi-input.nvim",
     for_cat = "lilypond",
-    event = "DeferredUIEnter",
-    --cmd = { "MidiInputStart" },
-    lazy = false,
+    cmd = { "MidiInputStart" },
+    --lazy = false,
     after = function()
     require("nvim-midi-input").setup({
       device = "Roland Digital Piano MIDI 1",

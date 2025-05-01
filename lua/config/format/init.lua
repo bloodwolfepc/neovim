@@ -15,6 +15,7 @@ require("lze").load {
         formatters_by_ft = {
           rust = { "rustfmt", lsp_format = "fallback" },
           nix = { "nixfmt", lsp_format = "fallback" },
+          lua = { "stylua", lsp_format = "fallback" },
           lilypond = { "lilypond" },
         },
       })
