@@ -34,6 +34,8 @@ let
 
           pandoc # for feed
           eslint
+
+          taskwarrior3
         ];
         telescope = {
           default = with pkgs; [
@@ -67,7 +69,10 @@ let
           vscode-langservers-extracted
           tailwindcss-language-server
         ];
-        markdown = with pkgs; [ marksman ];
+        markdown = with pkgs; [
+          marksman
+          python313Packages.pylatexenc
+        ];
         scheme = with pkgs; [
           #mitscheme
           chez
@@ -138,7 +143,10 @@ let
             conform-nvim
             bufferline-nvim
 
-            null-ls-nvim
+            #null-ls-nvim
+
+            taskwarrior3
+            taskwiki
 
           ]
           ++ [
@@ -212,6 +220,9 @@ let
             nvim-ts-autotag # html
             nvim-ts-context-commentstring
             comment-nvim
+            render-markdown-nvim
+            nvim-treesitter-parsers.markdown
+            nvim-treesitter-parsers.markdown_inline
           ];
         };
         debug = {
@@ -242,6 +253,10 @@ let
         markdown = with pkgs.vimPlugins; [
           vimwiki
           markdown-preview-nvim
+          #treesitter
+          nvim-treesitter-parsers.markdown
+          nvim-treesitter-parsers.markdown_inline
+          render-markdown-nvim
         ];
         rust = with pkgs.vimPlugins; [ rustaceanvim ];
         latex = with pkgs.vimPlugins; [ vimtex ];

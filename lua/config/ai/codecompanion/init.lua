@@ -58,21 +58,27 @@ return {
 			local prompts = require("config.ai.prompts")
 			require("codecompanion").setup({
 				adapters = {
-					openai = function()
-						return require("codecompanion.adapters").extend("openai", {
-							schema = {
-								model = {
-									desc = "",
-									default = "gpt-4o",
-									choices = {
-										"gpt-4o",
-										"gpt-4o-mini",
-										"gpt-3.5-turbo",
+					http = {
+						openai = function()
+							return require("codecompanion.adapters").extend("openai", {
+								schema = {
+									model = {
+										desc = "",
+										default = "gpt-4o",
+										choices = {
+											"gpt-4o",
+											"gpt-4o-mini",
+											"gpt-3.5-turbo",
+										},
 									},
 								},
-							},
-						})
-					end,
+							})
+						end,
+						opts = {
+							log_level = "DEBUG",
+							system_prompt = prompts.system_prompt,
+						},
+					},
 				},
 				strategies = {
 					chat = {
@@ -130,11 +136,6 @@ return {
 						},
 					},
 				},
-				opts = {
-					log_level = "DEBUG",
-					system_prompt = prompts.system_prompt,
-				},
-
 				prompt_library = {
 					["commit"] = {
 						prompts = {
