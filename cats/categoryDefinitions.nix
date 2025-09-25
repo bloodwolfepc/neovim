@@ -36,6 +36,14 @@ let
           eslint
 
           taskwarrior3
+
+          (pkgs.aspellWithDicts (
+            ds: with ds; [
+              en
+              en-computers
+              #en-science
+            ]
+          ))
         ];
         telescope = {
           default = with pkgs; [
@@ -142,6 +150,7 @@ let
             nvim-lint
             conform-nvim
             bufferline-nvim
+            wrapping-nvim
 
             #null-ls-nvim
 
@@ -220,9 +229,6 @@ let
             nvim-ts-autotag # html
             nvim-ts-context-commentstring
             comment-nvim
-            render-markdown-nvim
-            nvim-treesitter-parsers.markdown
-            nvim-treesitter-parsers.markdown_inline
           ];
         };
         debug = {

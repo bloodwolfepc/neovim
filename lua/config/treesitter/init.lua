@@ -32,8 +32,6 @@ require("lze").load({
 				"nvim-ts-autotag",
 				"nvim-ts-context-commentstring",
 				"comment.nvim",
-				"tree-sitter-markdown",
-				"render-markdown.nvim",
 			})
 		end,
 		after = function()

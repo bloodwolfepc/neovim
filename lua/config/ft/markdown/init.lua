@@ -28,10 +28,9 @@ return {
 	},
 	{
 		"render-markdown.nvim",
+		for_cat = "markdown",
+		ft = "markdown",
 		event = "DeferredUIEnter",
-		-- load = function(name)
-		-- 	vim.cmd.packadd("render-markdown.nvim")
-		-- end,
 		after = function()
 			require("render-markdown").setup({
 				file_types = { "markdown", "vimwiki" },
