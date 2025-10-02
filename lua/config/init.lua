@@ -185,9 +185,28 @@ require("lze").load({
 					notify_on_switch = false,
 				},
 			})
-			vim.keymap.set("n", "]ow", require("wrapping").hard_wrap_mode, { desc = "hard wrapping" })
-			vim.keymap.set("n", "[ow", require("wrapping").soft_wrap_mode, { desc = "soft wrapping" })
-			vim.keymap.set("n", "yow", require("wrapping").toggle_wrap_mode, { desc = "toggle wrapping" })
+			vim.api.nvim_command("highlight ColorColumn ctermbg=darkgrey guibg=#3C3836") -- Example colors
+			local original_colorcolumn = vim.opt.colorcolumn:get()
+
+			vim.keymap.set("n", "]ow", function()
+				require("wrapping").hard_wrap_mode()
+				vim.opt.colorcolumn = original_colorcolumn
+			end, { desc = "hard wrapping" })
+
+			vim.keymap.set("n", "[ow", function()
+				require("wrapping").soft_wrap_mode()
+				vim.opt.colorcolumn = ""
+			end, { desc = "soft wrapping" })
+
+			vim.keymap.set("n", "yow", function()
+				require("wrapping").toggle_wrap_mode()
+				local current_wrap = vim.wo.wrap
+				if current_wrap then
+					vim.opt.colorcolumn = ""
+				else
+					vim.opt.colorcolumn = original_colorcolumn
+				end
+			end, { desc = "toggle wrapping" })
 		end,
 	},
 })
