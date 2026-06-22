@@ -127,6 +127,9 @@ let
         general =
           with pkgs.vimPlugins;
           [
+            neorg
+            neorg-telescope
+
             #persistence-nvim
             #wilder-nvim
             #coc-vimtex
